@@ -39,6 +39,11 @@ const isAdmin = (req, res, next) => {
 
 // 4. ROUTES
 
+// WELCOME ROUTE (Para hindi na "Not Found" ang main link)
+app.get('/', (req, res) => {
+    res.send('<h1>Motorcycle Inventory API is Running!</h1><p>Punta ka sa <a href="/login">/login</a> para mag-login.</p>');
+});
+
 // LOGIN PAGE
 app.get('/login', (req, res) => {
     res.render('login', { error: null });
@@ -87,7 +92,6 @@ app.post('/inventory/add', async (req, res) => {
     }
 });
 
-// --- BAGONG DELETE ROUTE PARA SA REACT ---
 app.delete('/api/motorcycles/:id', isAdmin, async (req, res) => {
     try {
         await Motorcycle.findByIdAndDelete(req.params.id);
@@ -106,5 +110,6 @@ mongoose.connect(process.env.MONGO_URI)
 })
 .catch(err => console.log('DB ERROR:', err.message));
 
-const PORT = 5000;
+// DITO ANG PAGBABAGO: Gamitin ang Port ni Render o 5000 kung local
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
