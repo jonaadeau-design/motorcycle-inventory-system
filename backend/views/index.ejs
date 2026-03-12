@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motorcycle Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 20px; }
+        .form-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 25px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; }
+        input { padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { background: #27ae60; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #34495e; color: white; }
+        .logout-btn { background: #e74c3c; color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>🏍️ MOTORCYCLE SALE</h2>
+            <a href="/logout" class="logout-btn">Logout 🚪</a>
+        </div>
+
+        <div class="form-section">
+            <h4 style="margin-top:0">Add New Entry</h4>
+            <form action="/inventory/add" method="POST" class="form-row">
+                <input type="text" name="brand" placeholder="Brand" required>
+                <input type="text" name="model" placeholder="Model" required>
+                <input type="text" name="plateNumber" placeholder="Plate Number" required>
+                <button type="submit">Save Motor</button>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Plate Number</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(motors && motors.length > 0) { %>
+                    <% motors.forEach(motor => { %>
+                        <tr>
+                            <td><%= motor.brand %></td>
+                            <td><%= motor.model %></td>
+                            <td><strong><%= motor.plateNumber %></strong></td>
+                            <td>
+                                <a href="/inventory/delete/<%= motor._id %>" style="color:red" onclick="return confirm('Delete ito?')">Delete</a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr><td colspan="4" style="text-align:center">No records found.</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
